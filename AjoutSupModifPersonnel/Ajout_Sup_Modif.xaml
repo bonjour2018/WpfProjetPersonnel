@@ -1,0 +1,39 @@
+﻿<Window x:Class="AjoutSupModifPersonnel.Ajout_Sup_Modif"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AjoutSupModifPersonnel"
+        mc:Ignorable="d"
+        Title="Ajout_Sup_Modif" Height="550" Width="900" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid>
+        <Grid x:Name="gdPrepose"  HorizontalAlignment="Left" Height="436" Margin="78,32,0,0" VerticalAlignment="Top" Width="394">
+            <Label x:Name="label_Copy" Content="Nom  :" HorizontalAlignment="Left" Margin="36,48,0,0" VerticalAlignment="Top" FontSize="14"/>
+            <TextBox x:Name="txtNom" HorizontalAlignment="Left" Height="28" Margin="120,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="136" FontSize="14"/>
+
+            <Button x:Name="btnModifier" Content="Modifier" HorizontalAlignment="Left" Margin="262,332,0,0" VerticalAlignment="Top" Width="76"/>
+            <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="26,136,0,0" VerticalAlignment="Top" Height="151" Width="246" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID Prepose" Binding="{Binding Path=idPrepose}"/>
+                    <DataGridTextColumn Header="Nom" Binding="{Binding Path=nom}"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+        </Grid>
+        <Button x:Name="btnAjouter" Content="Ajouter" HorizontalAlignment="Left" Margin="125,364,0,0" VerticalAlignment="Top" Width="75"/>
+        <Grid HorizontalAlignment="Left" Height="436" Margin="501,32,0,0" VerticalAlignment="Top" Width="351">
+            <Label x:Name="label_Copy1" Content="Nom  :" HorizontalAlignment="Left" Margin="36,48,0,0" VerticalAlignment="Top" FontSize="14"/>
+            <TextBox x:Name="txtMedecin" HorizontalAlignment="Left" Height="23" Margin="120,54,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+            <DataGrid x:Name="dtMedecin" HorizontalAlignment="Left" Margin="26,136,0,0" VerticalAlignment="Top" Height="151" Width="246" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID Medecin" Binding="{Binding Path=idMedecin}"/>
+                    <DataGridTextColumn Header="Nom" Binding="{Binding Path=nom}"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+        </Grid>
+
+    </Grid>
+</Window>

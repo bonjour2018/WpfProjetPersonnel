@@ -1,0 +1,5 @@
+E:\toufik-etape4\Projet\NHL\ClassNHL\bin\Debug\ClassNHL.dll
+E:\toufik-etape4\Projet\NHL\ClassNHL\bin\Debug\ClassNHL.pdb
+E:\toufik-etape4\Projet\NHL\ClassNHL\obj\Debug\ClassNHL.csprojResolveAssemblyReference.cache
+E:\toufik-etape4\Projet\NHL\ClassNHL\obj\Debug\ClassNHL.dll
+E:\toufik-etape4\Projet\NHL\ClassNHL\obj\Debug\ClassNHL.pdb

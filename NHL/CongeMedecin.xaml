@@ -1,0 +1,49 @@
+﻿<Window x:Class="NHL.CongeMedecin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NHL"
+        mc:Ignorable="d"
+        Title="CongeMedecin" Height="646.085" Width="939.999" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,0,0,-55">
+        <Label x:Name="label" Content="Numero Admission :" HorizontalAlignment="Left" Margin="57,35,0,0" VerticalAlignment="Top" FontSize="15"/>
+        <ComboBox x:Name="cbAdmis" HorizontalAlignment="Left" Margin="209,39,0,0" VerticalAlignment="Top" Width="72" FontSize="15" ItemsSource="{Binding}" DisplayMemberPath="idAdmission" IsSynchronizedWithCurrentItem="True" SelectionChanged="cbAdmis_SelectionChanged"/>
+        <DataGrid x:Name="dtAdmission1" AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Left" Margin="57,213,0,0" VerticalAlignment="Top" Height="148" Width="810">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Numéro Admission" Binding="{Binding idAdmission}"/>
+                <DataGridTextColumn Header="Médecin" Binding="{Binding idMedecin}"/>
+                <DataGridTextColumn Header="Préposé" Binding="{Binding idPrepose}"/>
+                <DataGridTextColumn Header="Patient" Binding="{Binding idPatient}"/>
+                <DataGridTextColumn Header="Lit" Binding="{Binding idLit}"/>
+                <DataGridTextColumn Header="Commodité Sup" Binding="{Binding idCommo}"/>
+                <DataGridTextColumn Header="Date Admission" Binding="{Binding dateAdmiss}"/>
+                <DataGridTextColumn Header="Date de Congé" Binding="{Binding dateConge}"/>
+                <DataGridTextColumn Header="Compagnie d'assurance" Binding="{Binding nomAssurance}"/>
+                <DataGridTextColumn Header="Montant" Binding="{Binding prix}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="label_Copy" Content="Nom :" HorizontalAlignment="Left" Margin="57,74,0,0" VerticalAlignment="Top" FontSize="15"/>
+        <TextBox x:Name="txtNom" HorizontalAlignment="Left" Height="23" Margin="208,78,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="163" FontSize="15"/>
+        <Button x:Name="btnConge" Content="Donner Congé" HorizontalAlignment="Left" Margin="380,582,0,0" VerticalAlignment="Top" Width="128" FontSize="15" Click="btnConge_Click"/>
+        <Label x:Name="label_Copy1" Content="Date de Congé :" HorizontalAlignment="Left" Margin="57,112,0,0" VerticalAlignment="Top" FontSize="15"/>
+        <DatePicker x:Name="datePicker1"  HorizontalAlignment="Left" Margin="209,118,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Admissions encore valides" HorizontalAlignment="Left" Margin="57,171,0,0" VerticalAlignment="Top" FontSize="20" FontStyle="Oblique" FontStretch="SemiCondensed" FontWeight="Bold"/>
+        <Label x:Name="label1_Copy" Content="Admissions Mises en congé" HorizontalAlignment="Left" Margin="57,386,0,0" VerticalAlignment="Top" FontSize="20" FontStyle="Oblique" FontStretch="SemiCondensed" FontWeight="Bold"/>
+        <DataGrid x:Name="dtAdmisConge" AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Left" Margin="57,423,0,0" VerticalAlignment="Top" Height="148" Width="810">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Numéro Admission" Binding="{Binding idAdmission}"/>
+                <DataGridTextColumn Header="Médecin" Binding="{Binding idMedecin}"/>
+                <DataGridTextColumn Header="Préposé" Binding="{Binding idPrepose}"/>
+                <DataGridTextColumn Header="Patient" Binding="{Binding idPatient}"/>
+                <DataGridTextColumn Header="Lit" Binding="{Binding idLit}"/>
+                <DataGridTextColumn Header="Commodité Sup" Binding="{Binding idCommo}"/>
+                <DataGridTextColumn Header="Date Admission" Binding="{Binding dateAdmiss}"/>
+                <DataGridTextColumn Header="Date de Congé" Binding="{Binding dateConge}"/>
+                <DataGridTextColumn Header="Compagnie d'assurance" Binding="{Binding nomAssurance}"/>
+                <DataGridTextColumn Header="Montant" Binding="{Binding prix}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>

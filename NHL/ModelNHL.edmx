@@ -1,0 +1,683 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NHLModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Chambre">
+          <Key>
+            <PropertyRef Name="idChambre" />
+          </Key>
+          <Property Name="idChambre" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="prefixe" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="idType" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CommoditeSup">
+          <Key>
+            <PropertyRef Name="idCommo" />
+          </Key>
+          <Property Name="idCommo" Type="int" Nullable="false" />
+          <Property Name="design" Type="nchar" MaxLength="20" />
+          <Property Name="prix" Type="decimal" Precision="6" Scale="2" />
+        </EntityType>
+        <EntityType Name="DemandeAdmission">
+          <Key>
+            <PropertyRef Name="idAdmission" />
+            <PropertyRef Name="idMedecin" />
+            <PropertyRef Name="idPatient" />
+            <PropertyRef Name="idPrepose" />
+          </Key>
+          <Property Name="idAdmission" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idMedecin" Type="int" Nullable="false" />
+          <Property Name="idPatient" Type="int" Nullable="false" />
+          <Property Name="idPrepose" Type="int" Nullable="false" />
+          <Property Name="idLit" Type="nchar" MaxLength="6" />
+          <Property Name="idCommo" Type="int" />
+          <Property Name="dateAdmiss" Type="date" />
+          <Property Name="dateConge" Type="date" />
+          <Property Name="nomAssurance" Type="nchar" MaxLength="40" />
+          <Property Name="prix" Type="decimal" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="Departement1">
+          <Key>
+            <PropertyRef Name="prefixe" />
+          </Key>
+          <Property Name="prefixe" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="design" Type="nchar" MaxLength="40" />
+        </EntityType>
+        <EntityType Name="EstDeType">
+          <Key>
+            <PropertyRef Name="idType" />
+            <PropertyRef Name="idChambre" />
+          </Key>
+          <Property Name="idType" Type="int" Nullable="false" />
+          <Property Name="idChambre" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lit">
+          <Key>
+            <PropertyRef Name="idLit" />
+          </Key>
+          <Property Name="idLit" Type="nchar" MaxLength="6" Nullable="false" />
+          <Property Name="idChambre" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="dispo" Type="bit" />
+        </EntityType>
+        <EntityType Name="Medecin">
+          <Key>
+            <PropertyRef Name="idMedecin" />
+          </Key>
+          <Property Name="idMedecin" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="nchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="nchar" MaxLength="60" />
+          <Property Name="age" Type="int" />
+          <Property Name="nomAssurance" Type="nchar" MaxLength="40" />
+          <Property Name="parent" Type="nchar" MaxLength="40" Nullable="false" />
+          <Property Name="TypeIntervention" Type="nchar" MaxLength="40" />
+          <Property Name="pris" Type="bit" />
+        </EntityType>
+        <EntityType Name="Prepose">
+          <Key>
+            <PropertyRef Name="idPrepose" />
+          </Key>
+          <Property Name="idPrepose" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="nchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="TypeChambre">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Deisgnation" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="prix" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Chambre_Departement1">
+          <End Role="Departement1" Type="Self.Departement1" Multiplicity="1" />
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departement1">
+              <PropertyRef Name="prefixe" />
+            </Principal>
+            <Dependent Role="Chambre">
+              <PropertyRef Name="prefixe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chambre_TypeChambre">
+          <End Role="TypeChambre" Type="Self.TypeChambre" Multiplicity="1" />
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeChambre">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Chambre">
+              <PropertyRef Name="idType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_CommoditeSup">
+          <End Role="CommoditeSup" Type="Self.CommoditeSup" Multiplicity="0..1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommoditeSup">
+              <PropertyRef Name="idCommo" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idCommo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_Lit">
+          <End Role="Lit" Type="Self.Lit" Multiplicity="0..1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lit">
+              <PropertyRef Name="idLit" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idLit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_Medecin">
+          <End Role="Medecin" Type="Self.Medecin" Multiplicity="1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medecin">
+              <PropertyRef Name="idMedecin" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idMedecin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_Patient1">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idPatient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_Prepose1">
+          <End Role="Prepose" Type="Self.Prepose" Multiplicity="1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prepose">
+              <PropertyRef Name="idPrepose" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idPrepose" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstDeType_Chambre">
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="1" />
+          <End Role="EstDeType" Type="Self.EstDeType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chambre">
+              <PropertyRef Name="idChambre" />
+            </Principal>
+            <Dependent Role="EstDeType">
+              <PropertyRef Name="idChambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EstDeType_TypeChambre">
+          <End Role="TypeChambre" Type="Self.TypeChambre" Multiplicity="1" />
+          <End Role="EstDeType" Type="Self.EstDeType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeChambre">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="EstDeType">
+              <PropertyRef Name="idType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lit_Chambre1">
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="1" />
+          <End Role="Lit" Type="Self.Lit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chambre">
+              <PropertyRef Name="idChambre" />
+            </Principal>
+            <Dependent Role="Lit">
+              <PropertyRef Name="idChambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NHLModelStoreContainer">
+          <EntitySet Name="Chambre" EntityType="Self.Chambre" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CommoditeSup" EntityType="Self.CommoditeSup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DemandeAdmission" EntityType="Self.DemandeAdmission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departement1" EntityType="Self.Departement1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstDeType" EntityType="Self.EstDeType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lit" EntityType="Self.Lit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medecin" EntityType="Self.Medecin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Prepose" EntityType="Self.Prepose" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeChambre" EntityType="Self.TypeChambre" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Chambre_Departement1" Association="Self.FK_Chambre_Departement1">
+            <End Role="Departement1" EntitySet="Departement1" />
+            <End Role="Chambre" EntitySet="Chambre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chambre_TypeChambre" Association="Self.FK_Chambre_TypeChambre">
+            <End Role="TypeChambre" EntitySet="TypeChambre" />
+            <End Role="Chambre" EntitySet="Chambre" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_CommoditeSup" Association="Self.FK_DemandeAdmission_CommoditeSup">
+            <End Role="CommoditeSup" EntitySet="CommoditeSup" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_Lit" Association="Self.FK_DemandeAdmission_Lit">
+            <End Role="Lit" EntitySet="Lit" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_Medecin" Association="Self.FK_DemandeAdmission_Medecin">
+            <End Role="Medecin" EntitySet="Medecin" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_Patient1" Association="Self.FK_DemandeAdmission_Patient1">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_Prepose1" Association="Self.FK_DemandeAdmission_Prepose1">
+            <End Role="Prepose" EntitySet="Prepose" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmission" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstDeType_Chambre" Association="Self.FK_EstDeType_Chambre">
+            <End Role="Chambre" EntitySet="Chambre" />
+            <End Role="EstDeType" EntitySet="EstDeType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EstDeType_TypeChambre" Association="Self.FK_EstDeType_TypeChambre">
+            <End Role="TypeChambre" EntitySet="TypeChambre" />
+            <End Role="EstDeType" EntitySet="EstDeType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lit_Chambre1" Association="Self.FK_Lit_Chambre1">
+            <End Role="Chambre" EntitySet="Chambre" />
+            <End Role="Lit" EntitySet="Lit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NHLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Chambre">
+          <Key>
+            <PropertyRef Name="idChambre" />
+          </Key>
+          <Property Name="idChambre" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="prefixe" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="idType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Departement1" Relationship="Self.FK_Chambre_Departement1" FromRole="Chambre" ToRole="Departement1" />
+          <NavigationProperty Name="TypeChambre" Relationship="Self.FK_Chambre_TypeChambre" FromRole="Chambre" ToRole="TypeChambre" />
+          <NavigationProperty Name="Lits" Relationship="Self.FK_Lit_Chambre1" FromRole="Chambre" ToRole="Lit" />
+          <NavigationProperty Name="TypeChambres" Relationship="Self.EstDeType" FromRole="Chambre" ToRole="TypeChambre" />
+        </EntityType>
+        <EntityType Name="CommoditeSup">
+          <Key>
+            <PropertyRef Name="idCommo" />
+          </Key>
+          <Property Name="idCommo" Type="Int32" Nullable="false" />
+          <Property Name="design" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="prix" Type="Decimal" Precision="6" Scale="2" />
+          <NavigationProperty Name="DemandeAdmissions" Relationship="Self.FK_DemandeAdmission_CommoditeSup" FromRole="CommoditeSup" ToRole="DemandeAdmission" />
+        </EntityType>
+        <EntityType Name="DemandeAdmission">
+          <Key>
+            <PropertyRef Name="idAdmission" />
+            <PropertyRef Name="idMedecin" />
+            <PropertyRef Name="idPatient" />
+            <PropertyRef Name="idPrepose" />
+          </Key>
+          <Property Name="idAdmission" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idMedecin" Type="Int32" Nullable="false" />
+          <Property Name="idPatient" Type="Int32" Nullable="false" />
+          <Property Name="idPrepose" Type="Int32" Nullable="false" />
+          <Property Name="idLit" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
+          <Property Name="idCommo" Type="Int32" />
+          <Property Name="dateAdmiss" Type="DateTime" Precision="0" />
+          <Property Name="dateConge" Type="DateTime" Precision="0" />
+          <Property Name="nomAssurance" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="prix" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="CommoditeSup" Relationship="Self.FK_DemandeAdmission_CommoditeSup" FromRole="DemandeAdmission" ToRole="CommoditeSup" />
+          <NavigationProperty Name="Lit" Relationship="Self.FK_DemandeAdmission_Lit" FromRole="DemandeAdmission" ToRole="Lit" />
+          <NavigationProperty Name="Medecin" Relationship="Self.FK_DemandeAdmission_Medecin" FromRole="DemandeAdmission" ToRole="Medecin" />
+          <NavigationProperty Name="Patient" Relationship="Self.FK_DemandeAdmission_Patient1" FromRole="DemandeAdmission" ToRole="Patient" />
+          <NavigationProperty Name="Prepose" Relationship="Self.FK_DemandeAdmission_Prepose1" FromRole="DemandeAdmission" ToRole="Prepose" />
+        </EntityType>
+        <EntityType Name="Departement1">
+          <Key>
+            <PropertyRef Name="prefixe" />
+          </Key>
+          <Property Name="prefixe" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="design" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Chambres" Relationship="Self.FK_Chambre_Departement1" FromRole="Departement1" ToRole="Chambre" />
+        </EntityType>
+        <EntityType Name="Lit">
+          <Key>
+            <PropertyRef Name="idLit" />
+          </Key>
+          <Property Name="idLit" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="idChambre" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="dispo" Type="Boolean" />
+          <NavigationProperty Name="Chambre" Relationship="Self.FK_Lit_Chambre1" FromRole="Lit" ToRole="Chambre" />
+          <NavigationProperty Name="DemandeAdmissions" Relationship="Self.FK_DemandeAdmission_Lit" FromRole="Lit" ToRole="DemandeAdmission" />
+        </EntityType>
+        <EntityType Name="Medecin">
+          <Key>
+            <PropertyRef Name="idMedecin" />
+          </Key>
+          <Property Name="idMedecin" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="DemandeAdmissions" Relationship="Self.FK_DemandeAdmission_Medecin" FromRole="Medecin" ToRole="DemandeAdmission" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="nomAssurance" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="parent" Type="String" MaxLength="40" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="TypeIntervention" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
+          <Property Name="pris" Type="Boolean" />
+          <NavigationProperty Name="DemandeAdmissions" Relationship="Self.FK_DemandeAdmission_Patient1" FromRole="Patient" ToRole="DemandeAdmission" />
+        </EntityType>
+        <EntityType Name="Prepose">
+          <Key>
+            <PropertyRef Name="idPrepose" />
+          </Key>
+          <Property Name="idPrepose" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="DemandeAdmissions" Relationship="Self.FK_DemandeAdmission_Prepose1" FromRole="Prepose" ToRole="DemandeAdmission" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TypeChambre">
+          <Key>
+            <PropertyRef Name="idType" />
+          </Key>
+          <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Deisgnation" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="prix" Type="Decimal" Precision="6" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Chambres" Relationship="Self.FK_Chambre_TypeChambre" FromRole="TypeChambre" ToRole="Chambre" />
+          <NavigationProperty Name="Chambres1" Relationship="Self.EstDeType" FromRole="TypeChambre" ToRole="Chambre" />
+        </EntityType>
+        <Association Name="FK_Chambre_Departement1">
+          <End Role="Departement1" Type="Self.Departement1" Multiplicity="1" />
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departement1">
+              <PropertyRef Name="prefixe" />
+            </Principal>
+            <Dependent Role="Chambre">
+              <PropertyRef Name="prefixe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Chambre_TypeChambre">
+          <End Role="TypeChambre" Type="Self.TypeChambre" Multiplicity="1" />
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeChambre">
+              <PropertyRef Name="idType" />
+            </Principal>
+            <Dependent Role="Chambre">
+              <PropertyRef Name="idType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Lit_Chambre1">
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="1" />
+          <End Role="Lit" Type="Self.Lit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chambre">
+              <PropertyRef Name="idChambre" />
+            </Principal>
+            <Dependent Role="Lit">
+              <PropertyRef Name="idChambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_CommoditeSup">
+          <End Role="CommoditeSup" Type="Self.CommoditeSup" Multiplicity="0..1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CommoditeSup">
+              <PropertyRef Name="idCommo" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idCommo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_Lit">
+          <End Role="Lit" Type="Self.Lit" Multiplicity="0..1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lit">
+              <PropertyRef Name="idLit" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idLit" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_Medecin">
+          <End Role="Medecin" Type="Self.Medecin" Multiplicity="1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Medecin">
+              <PropertyRef Name="idMedecin" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idMedecin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_Patient1">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idPatient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DemandeAdmission_Prepose1">
+          <End Role="Prepose" Type="Self.Prepose" Multiplicity="1" />
+          <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Prepose">
+              <PropertyRef Name="idPrepose" />
+            </Principal>
+            <Dependent Role="DemandeAdmission">
+              <PropertyRef Name="idPrepose" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EstDeType">
+          <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+          <End Role="TypeChambre" Type="Self.TypeChambre" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="NHLEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Chambres" EntityType="Self.Chambre" />
+          <EntitySet Name="CommoditeSups" EntityType="Self.CommoditeSup" />
+          <EntitySet Name="DemandeAdmissions" EntityType="Self.DemandeAdmission" />
+          <EntitySet Name="Departement1" EntityType="Self.Departement1" />
+          <EntitySet Name="Lits" EntityType="Self.Lit" />
+          <EntitySet Name="Medecins" EntityType="Self.Medecin" />
+          <EntitySet Name="Patients" EntityType="Self.Patient" />
+          <EntitySet Name="Preposes" EntityType="Self.Prepose" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TypeChambres" EntityType="Self.TypeChambre" />
+          <AssociationSet Name="FK_Chambre_Departement1" Association="Self.FK_Chambre_Departement1">
+            <End Role="Departement1" EntitySet="Departement1" />
+            <End Role="Chambre" EntitySet="Chambres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Chambre_TypeChambre" Association="Self.FK_Chambre_TypeChambre">
+            <End Role="TypeChambre" EntitySet="TypeChambres" />
+            <End Role="Chambre" EntitySet="Chambres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Lit_Chambre1" Association="Self.FK_Lit_Chambre1">
+            <End Role="Chambre" EntitySet="Chambres" />
+            <End Role="Lit" EntitySet="Lits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_CommoditeSup" Association="Self.FK_DemandeAdmission_CommoditeSup">
+            <End Role="CommoditeSup" EntitySet="CommoditeSups" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_Lit" Association="Self.FK_DemandeAdmission_Lit">
+            <End Role="Lit" EntitySet="Lits" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_Medecin" Association="Self.FK_DemandeAdmission_Medecin">
+            <End Role="Medecin" EntitySet="Medecins" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_Patient1" Association="Self.FK_DemandeAdmission_Patient1">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DemandeAdmission_Prepose1" Association="Self.FK_DemandeAdmission_Prepose1">
+            <End Role="Prepose" EntitySet="Preposes" />
+            <End Role="DemandeAdmission" EntitySet="DemandeAdmissions" />
+          </AssociationSet>
+          <AssociationSet Name="EstDeType" Association="Self.EstDeType">
+            <End Role="Chambre" EntitySet="Chambres" />
+            <End Role="TypeChambre" EntitySet="TypeChambres" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NHLModelStoreContainer" CdmEntityContainer="NHLEntities">
+          <EntitySetMapping Name="Chambres">
+            <EntityTypeMapping TypeName="NHLModel.Chambre">
+              <MappingFragment StoreEntitySet="Chambre">
+                <ScalarProperty Name="idChambre" ColumnName="idChambre" />
+                <ScalarProperty Name="prefixe" ColumnName="prefixe" />
+                <ScalarProperty Name="idType" ColumnName="idType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CommoditeSups">
+            <EntityTypeMapping TypeName="NHLModel.CommoditeSup">
+              <MappingFragment StoreEntitySet="CommoditeSup">
+                <ScalarProperty Name="idCommo" ColumnName="idCommo" />
+                <ScalarProperty Name="design" ColumnName="design" />
+                <ScalarProperty Name="prix" ColumnName="prix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DemandeAdmissions">
+            <EntityTypeMapping TypeName="NHLModel.DemandeAdmission">
+              <MappingFragment StoreEntitySet="DemandeAdmission">
+                <ScalarProperty Name="idAdmission" ColumnName="idAdmission" />
+                <ScalarProperty Name="idMedecin" ColumnName="idMedecin" />
+                <ScalarProperty Name="idPatient" ColumnName="idPatient" />
+                <ScalarProperty Name="idPrepose" ColumnName="idPrepose" />
+                <ScalarProperty Name="idLit" ColumnName="idLit" />
+                <ScalarProperty Name="idCommo" ColumnName="idCommo" />
+                <ScalarProperty Name="dateAdmiss" ColumnName="dateAdmiss" />
+                <ScalarProperty Name="dateConge" ColumnName="dateConge" />
+                <ScalarProperty Name="nomAssurance" ColumnName="nomAssurance" />
+                <ScalarProperty Name="prix" ColumnName="prix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departement1">
+            <EntityTypeMapping TypeName="NHLModel.Departement1">
+              <MappingFragment StoreEntitySet="Departement1">
+                <ScalarProperty Name="prefixe" ColumnName="prefixe" />
+                <ScalarProperty Name="design" ColumnName="design" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lits">
+            <EntityTypeMapping TypeName="NHLModel.Lit">
+              <MappingFragment StoreEntitySet="Lit">
+                <ScalarProperty Name="idLit" ColumnName="idLit" />
+                <ScalarProperty Name="idChambre" ColumnName="idChambre" />
+                <ScalarProperty Name="dispo" ColumnName="dispo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medecins">
+            <EntityTypeMapping TypeName="NHLModel.Medecin">
+              <MappingFragment StoreEntitySet="Medecin">
+                <ScalarProperty Name="idMedecin" ColumnName="idMedecin" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Patients">
+            <EntityTypeMapping TypeName="NHLModel.Patient">
+              <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="nomAssurance" ColumnName="nomAssurance" />
+                <ScalarProperty Name="parent" ColumnName="parent" />
+                <ScalarProperty Name="TypeIntervention" ColumnName="TypeIntervention" />
+                <ScalarProperty Name="pris" ColumnName="pris" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Preposes">
+            <EntityTypeMapping TypeName="NHLModel.Prepose">
+              <MappingFragment StoreEntitySet="Prepose">
+                <ScalarProperty Name="idPrepose" ColumnName="idPrepose" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="NHLModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeChambres">
+            <EntityTypeMapping TypeName="NHLModel.TypeChambre">
+              <MappingFragment StoreEntitySet="TypeChambre">
+                <ScalarProperty Name="idType" ColumnName="idType" />
+                <ScalarProperty Name="Deisgnation" ColumnName="Deisgnation" />
+                <ScalarProperty Name="prix" ColumnName="prix" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="EstDeType" TypeName="NHLModel.EstDeType" StoreEntitySet="EstDeType">
+            <EndProperty Name="Chambre">
+              <ScalarProperty Name="idChambre" ColumnName="idChambre" />
+            </EndProperty>
+            <EndProperty Name="TypeChambre">
+              <ScalarProperty Name="idType" ColumnName="idType" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

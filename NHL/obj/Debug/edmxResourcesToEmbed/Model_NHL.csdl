@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NHLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Chambre">
+    <Key>
+      <PropertyRef Name="idChambre" />
+    </Key>
+    <Property Name="idChambre" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="prefixe" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Departement" Relationship="Self.FK_Chambre_Departement" FromRole="Chambre" ToRole="Departement" />
+    <NavigationProperty Name="Lits" Relationship="Self.FK_Lit_Chambre" FromRole="Chambre" ToRole="Lit" />
+    <NavigationProperty Name="loues" Relationship="Self.FK_loue_Chambre" FromRole="Chambre" ToRole="loue" />
+    <NavigationProperty Name="TypeChambres" Relationship="Self.EstDeType" FromRole="Chambre" ToRole="TypeChambre" />
+  </EntityType>
+  <EntityType Name="CommoditeSup">
+    <Key>
+      <PropertyRef Name="idCommo" />
+    </Key>
+    <Property Name="idCommo" Type="Int32" Nullable="false" />
+    <Property Name="design" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="prix" Type="Decimal" Precision="6" Scale="2" />
+    <NavigationProperty Name="loues" Relationship="Self.FK_loue_CommoditeSup" FromRole="CommoditeSup" ToRole="loue" />
+  </EntityType>
+  <EntityType Name="DemandeAdmission">
+    <Key>
+      <PropertyRef Name="idMedecin" />
+      <PropertyRef Name="idPatient" />
+      <PropertyRef Name="idPrepose" />
+    </Key>
+    <Property Name="idMedecin" Type="Int32" Nullable="false" />
+    <Property Name="idPatient" Type="Int32" Nullable="false" />
+    <Property Name="idPrepose" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Medecin" Relationship="Self.FK_DemandeAdmission_Medecin" FromRole="DemandeAdmission" ToRole="Medecin" />
+    <NavigationProperty Name="Patient" Relationship="Self.FK_DemandeAdmission_Patient1" FromRole="DemandeAdmission" ToRole="Patient" />
+    <NavigationProperty Name="Prepose" Relationship="Self.FK_DemandeAdmission_Prepose1" FromRole="DemandeAdmission" ToRole="Prepose" />
+  </EntityType>
+  <EntityType Name="Departement">
+    <Key>
+      <PropertyRef Name="prefixe" />
+    </Key>
+    <Property Name="prefixe" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="Design" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Chambres" Relationship="Self.FK_Chambre_Departement" FromRole="Departement" ToRole="Chambre" />
+  </EntityType>
+  <EntityType Name="Lit">
+    <Key>
+      <PropertyRef Name="idLit" />
+    </Key>
+    <Property Name="idLit" Type="String" MaxLength="6" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="idChambre" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="dispo" Type="Boolean" />
+    <NavigationProperty Name="Chambre" Relationship="Self.FK_Lit_Chambre" FromRole="Lit" ToRole="Chambre" />
+  </EntityType>
+  <EntityType Name="loue">
+    <Key>
+      <PropertyRef Name="idChambre" />
+      <PropertyRef Name="idPatient" />
+      <PropertyRef Name="idCommo" />
+    </Key>
+    <Property Name="idChambre" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="idPatient" Type="Int32" Nullable="false" />
+    <Property Name="idCommo" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Chambre" Relationship="Self.FK_loue_Chambre" FromRole="loue" ToRole="Chambre" />
+    <NavigationProperty Name="CommoditeSup" Relationship="Self.FK_loue_CommoditeSup" FromRole="loue" ToRole="CommoditeSup" />
+    <NavigationProperty Name="Patient" Relationship="Self.FK_loue_Patient1" FromRole="loue" ToRole="Patient" />
+  </EntityType>
+  <EntityType Name="Medecin">
+    <Key>
+      <PropertyRef Name="idMedecin" />
+    </Key>
+    <Property Name="idMedecin" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="DemandeAdmissions" Relationship="Self.FK_DemandeAdmission_Medecin" FromRole="Medecin" ToRole="DemandeAdmission" />
+  </EntityType>
+  <EntityType Name="Patient">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+    <Property Name="age" Type="Int32" />
+    <Property Name="idAssurance" Type="Int32" />
+    <NavigationProperty Name="DemandeAdmissions" Relationship="Self.FK_DemandeAdmission_Patient1" FromRole="Patient" ToRole="DemandeAdmission" />
+    <NavigationProperty Name="loues" Relationship="Self.FK_loue_Patient1" FromRole="Patient" ToRole="loue" />
+  </EntityType>
+  <EntityType Name="Prepose">
+    <Key>
+      <PropertyRef Name="idPrepose" />
+    </Key>
+    <Property Name="idPrepose" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nom" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="DemandeAdmissions" Relationship="Self.FK_DemandeAdmission_Prepose1" FromRole="Prepose" ToRole="DemandeAdmission" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TypeChambre">
+    <Key>
+      <PropertyRef Name="idType" />
+    </Key>
+    <Property Name="idType" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Deisgnation" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="prix" Type="Decimal" Precision="6" Scale="2" />
+    <NavigationProperty Name="Chambres" Relationship="Self.EstDeType" FromRole="TypeChambre" ToRole="Chambre" />
+  </EntityType>
+  <Association Name="FK_Chambre_Departement">
+    <End Role="Departement" Type="Self.Departement" Multiplicity="1" />
+    <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departement">
+        <PropertyRef Name="prefixe" />
+      </Principal>
+      <Dependent Role="Chambre">
+        <PropertyRef Name="prefixe" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Lit_Chambre">
+    <End Role="Chambre" Type="Self.Chambre" Multiplicity="1" />
+    <End Role="Lit" Type="Self.Lit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chambre">
+        <PropertyRef Name="idChambre" />
+      </Principal>
+      <Dependent Role="Lit">
+        <PropertyRef Name="idChambre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_loue_Chambre">
+    <End Role="Chambre" Type="Self.Chambre" Multiplicity="1" />
+    <End Role="loue" Type="Self.loue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Chambre">
+        <PropertyRef Name="idChambre" />
+      </Principal>
+      <Dependent Role="loue">
+        <PropertyRef Name="idChambre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_loue_CommoditeSup">
+    <End Role="CommoditeSup" Type="Self.CommoditeSup" Multiplicity="1" />
+    <End Role="loue" Type="Self.loue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CommoditeSup">
+        <PropertyRef Name="idCommo" />
+      </Principal>
+      <Dependent Role="loue">
+        <PropertyRef Name="idCommo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DemandeAdmission_Medecin">
+    <End Role="Medecin" Type="Self.Medecin" Multiplicity="1" />
+    <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medecin">
+        <PropertyRef Name="idMedecin" />
+      </Principal>
+      <Dependent Role="DemandeAdmission">
+        <PropertyRef Name="idMedecin" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DemandeAdmission_Patient1">
+    <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+    <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DemandeAdmission">
+        <PropertyRef Name="idPatient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DemandeAdmission_Prepose1">
+    <End Role="Prepose" Type="Self.Prepose" Multiplicity="1" />
+    <End Role="DemandeAdmission" Type="Self.DemandeAdmission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Prepose">
+        <PropertyRef Name="idPrepose" />
+      </Principal>
+      <Dependent Role="DemandeAdmission">
+        <PropertyRef Name="idPrepose" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_loue_Patient1">
+    <End Role="Patient" Type="Self.Patient" Multiplicity="1" />
+    <End Role="loue" Type="Self.loue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="loue">
+        <PropertyRef Name="idPatient" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EstDeType">
+    <End Role="Chambre" Type="Self.Chambre" Multiplicity="*" />
+    <End Role="TypeChambre" Type="Self.TypeChambre" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="NHLEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Chambres" EntityType="Self.Chambre" />
+    <EntitySet Name="CommoditeSups" EntityType="Self.CommoditeSup" />
+    <EntitySet Name="DemandeAdmissions" EntityType="Self.DemandeAdmission" />
+    <EntitySet Name="Departements" EntityType="Self.Departement" />
+    <EntitySet Name="Lits" EntityType="Self.Lit" />
+    <EntitySet Name="loues" EntityType="Self.loue" />
+    <EntitySet Name="Medecins" EntityType="Self.Medecin" />
+    <EntitySet Name="Patients" EntityType="Self.Patient" />
+    <EntitySet Name="Preposes" EntityType="Self.Prepose" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="TypeChambres" EntityType="Self.TypeChambre" />
+    <AssociationSet Name="FK_Chambre_Departement" Association="Self.FK_Chambre_Departement">
+      <End Role="Departement" EntitySet="Departements" />
+      <End Role="Chambre" EntitySet="Chambres" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Lit_Chambre" Association="Self.FK_Lit_Chambre">
+      <End Role="Chambre" EntitySet="Chambres" />
+      <End Role="Lit" EntitySet="Lits" />
+    </AssociationSet>
+    <AssociationSet Name="FK_loue_Chambre" Association="Self.FK_loue_Chambre">
+      <End Role="Chambre" EntitySet="Chambres" />
+      <End Role="loue" EntitySet="loues" />
+    </AssociationSet>
+    <AssociationSet Name="FK_loue_CommoditeSup" Association="Self.FK_loue_CommoditeSup">
+      <End Role="CommoditeSup" EntitySet="CommoditeSups" />
+      <End Role="loue" EntitySet="loues" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DemandeAdmission_Medecin" Association="Self.FK_DemandeAdmission_Medecin">
+      <End Role="Medecin" EntitySet="Medecins" />
+      <End Role="DemandeAdmission" EntitySet="DemandeAdmissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DemandeAdmission_Patient1" Association="Self.FK_DemandeAdmission_Patient1">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="DemandeAdmission" EntitySet="DemandeAdmissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DemandeAdmission_Prepose1" Association="Self.FK_DemandeAdmission_Prepose1">
+      <End Role="Prepose" EntitySet="Preposes" />
+      <End Role="DemandeAdmission" EntitySet="DemandeAdmissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_loue_Patient1" Association="Self.FK_loue_Patient1">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="loue" EntitySet="loues" />
+    </AssociationSet>
+    <AssociationSet Name="EstDeType" Association="Self.EstDeType">
+      <End Role="Chambre" EntitySet="Chambres" />
+      <End Role="TypeChambre" EntitySet="TypeChambres" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
